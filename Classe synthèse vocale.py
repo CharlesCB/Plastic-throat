@@ -15,12 +15,15 @@ class Synth:
 
         self.tremolo = Sine(freq = 2, add=1, mul = 0.01)
 
-        self.src = Blit(freq = 300 * self.vibr, harms = self.harms, mul = self.env)
-        self.lp = Biquad(self.src,freq = 350 * self.vibr, q = self.vibfreq)
+        self.src = Blit(freq = 200 * self.vibr, harms = self.harms, mul = self.env)
+        self.lp = Biquad(self.src,freq = 350 * self.vibr, q = 1)
 
         bruit = PinkNoise(mul=0.05)
        # eq = EQ(self.src,freq = [684,1256,2503])
-        self.bp = ButBP(self.lp, freq = o, q = 3).out()
+        self.bp = ButBP(self.lp, freq = o, q = 20, mul = 10).out()
+
+
+voix = Synth()
 
 s.start()
 s.gui(locals())
