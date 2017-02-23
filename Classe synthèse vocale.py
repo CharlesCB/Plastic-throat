@@ -6,6 +6,8 @@ s = Server().boot()
 # ténor (125 à 500 Hz)
 
 o = [360,760,2530,3200]
+a = [684,1256,2503]
+
 class Synth:
     def __init__(self):
         self.env = Fader(fadein = 0.2, fadeout = 0.5).play()
@@ -19,8 +21,9 @@ class Synth:
         self.lp = Biquad(self.src,freq = 350 * self.vibr, q = 1)
 
         bruit = PinkNoise(mul=0.05)
-       # eq = EQ(self.src,freq = [684,1256,2503])
-        self.bp = ButBP(self.lp, freq = o, q = 20, mul = 10).out()
+        self.bp1 = ButBP(self.lp, freq = o, q = 5)
+        self.bp2 = ButBP(self.bp1, freq = o, q = 5)
+        self.bp3 = ButBP(self.bp2, freq = o, q = 5).out()
 
 
 voix = Synth()
