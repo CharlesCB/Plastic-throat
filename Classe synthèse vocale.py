@@ -16,14 +16,17 @@ class Synth:
         self.vibr = Sine(freq = self.vibfreq,add = 1, mul = 0.002)
 
         self.tremolo = Sine(freq = 2, add=1, mul = 0.01)
-
-        self.src = Blit(freq = 200 * self.vibr, harms = self.harms, mul = self.env)
+        
+        self.bruit = PinkNoise(0.05)
+        self.rauque = ButBP(self.bruit,freq = 1500)
+        
+        
+        self.src = Blit(freq = 200 * self.vibr + self.rauque, harms = self.harms, mul = self.env * 2)
         self.lp = Biquad(self.src,freq = 350 * self.vibr, q = 1)
-
-        bruit = PinkNoise(mul=0.05)
+        
         self.bp1 = ButBP(self.lp, freq = o, q = 5)
         self.bp2 = ButBP(self.bp1, freq = o, q = 5)
-        self.bp3 = ButBP(self.bp2, freq = o, q = 5).out()
+        self.bp3 = ButBP(self.bp2, freq = o, q = 5).mix(2).out()
 
 
 voix = Synth()
