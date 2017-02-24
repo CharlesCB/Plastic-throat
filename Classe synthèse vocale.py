@@ -22,7 +22,7 @@ i = [250, 2250, 2980, 3280]
 class Synth:
     def __init__(self, vowel = o, fadein = 0.2, fadeout = 0.5):
         self.env = Fader(fadein = fadein, fadeout = fadeout).play()
-        self.harms = random.randint(20,25)
+        self.harms = random.randint(10,17)
         self.vibfreq = Sine(freq = 2, add = 1.5) 
         self.vibr = Sine(freq = self.vibfreq,add = 1, mul = 0.002)
 
