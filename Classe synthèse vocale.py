@@ -26,13 +26,13 @@ class Synth:
         self.vibfreq = Sine(freq = 2, add = 1.5) 
         self.vibr = Sine(freq = self.vibfreq,add = 1, mul = 0.002)
 
-        self.tremolo = Sine(freq = 2, add=1, mul = 0.01)
+        self.tremolo = Sine(freq = 2, add=1, mul = 0.001)
         
         self.bruit = PinkNoise(0.05)
         self.rauque = ButBP(self.bruit,freq = 1500)
         
         
-        self.src = Blit(freq = 200 * self.vibr + self.rauque, harms = self.harms, mul = self.env * 2).mix(2)
+        self.src = Blit(freq = 200 * self.vibr, harms = self.harms, mul = self.env * 2).mix(2)
         self.lp = Biquad(self.src,freq = 350 * self.vibr, q = 1)
         
         self.bp1 = ButBP(self.lp, freq = vowel, q = 5, mul = 1.5)
