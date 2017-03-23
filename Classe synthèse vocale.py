@@ -18,13 +18,13 @@ e = [420, 2050, 2630, 3340]
 u = [250, 1750, 2160, 3060]
 i = [250, 2250, 2980, 3280]
 
-
 class Synth:
     def __init__(self, vowel = o, fadein = 0.2, fadeout = 0.5):
         self.note = Notein(poly=5, scale=1, first=0, last=127)
         self.pit = self.note['pitch']
         self.amp = MidiAdsr(self.note['velocity'], attack=0.001,decay=.1, sustain=1, release=1, mul=2)
         
+        ##trig env (self.note['trigon']) et (self.note['trigoff'])
         self.env = Fader(fadein = fadein, fadeout = fadeout).play()
 
         self.harms = Randi(min=40, max=45, freq=0.25)
@@ -44,6 +44,7 @@ class Synth:
 
         self.lp = Biquadx(self.sum,freq = 350, q = 1, stages=2, mul = 10)
         
+        ## liste pour q
         self.formants = Biquadx(self.lp, freq=vowel, q=5, stages=3, mul=2).mix(1)
         
     def setVowel(self,x):
