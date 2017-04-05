@@ -22,7 +22,7 @@ class Synth:
     def __init__(self, vowel = o, fadein = 0.2, fadeout = 0.5):
         self.note = Notein(poly=5, scale=1, first=0, last=127)
         self.pit = self.note['pitch']
-        self.amp = MidiAdsr(self.note['velocity'], attack=0.001,decay=.1, sustain=1, release=1, mul=2)
+        self.amp = MidiAdsr(self.note['velocity'], attack=0.001,decay=.1, sustain=1, release=0.1, mul=2)
         
         ##trig env (self.note['trigon']) et (self.note['trigoff'])
         self.env = Fader(fadein = fadein, fadeout = fadeout).play()
