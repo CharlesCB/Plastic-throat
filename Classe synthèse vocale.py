@@ -21,11 +21,12 @@ u = (250, 1750, 2160, 3060, 4060)
 i = (250, 2250, 2980, 3280, 4280)
 
 qou = [7,6,6,5,6]
+
 class Synth:
     def __init__(self, vowel = ou, fadein = 0.001, fadeout = 0.1, hoarse = 0.1, 
                             vibfreq = 2, vibamp = 0.003,tremfreq = 2, tremamp = 0.001):
                                 
-        self.jitter = Noise(mul = 0.0001, add= 1)
+        self.jitter = Noise(mul = 0.001, add= 1)
         self.note = Notein(poly=5, scale=1, first=0, last=127)
         self.pit = self.note['pitch']
         self.amp = MidiAdsr(self.note['velocity'], attack=fadein, release=fadeout, mul=1)
@@ -50,19 +51,26 @@ class Synth:
         
         ## liste pour q
         
-        self.f1 = Biquadx(self.lp, freq=vowel[0], q=qou[0], stages=3, mul=2)
-        self.f2 = Biquadx(self.lp, freq=vowel[1], q=qou[1], stages=3, mul=2)
-        self.f3 = Biquadx(self.lp, freq=vowel[2], q=qou[2], stages=3, mul=2)
-        self.f4 = Biquadx(self.lp, freq=vowel[3], q=qou[3], stages=3, mul=2)
-        self.f5 = Biquadx(self.lp, freq=vowel[4], q=qou[4], stages=3, mul=2)
+        self.f1 = Biquadx(self.lp, freq=SigTo(vowel[0],time = 0.1), q=qou[0], stages=3, mul=2)
+        self.f2 = Biquadx(self.lp, freq=SigTo(vowel[1],time = 0.1), q=qou[1], stages=3, mul=2)
+        self.f3 = Biquadx(self.lp, freq=SigTo(vowel[2],time = 0.1), q=qou[2], stages=3, mul=2)
+        self.f4 = Biquadx(self.lp, freq=SigTo(vowel[3],time = 0.1), q=qou[3], stages=3, mul=2)
+        self.f5 = Biquadx(self.lp, freq=SigTo(vowel[4],time = 0.1), q=qou[4], stages=3, mul=2)
+        
 
         self.formants = self.f1.mix(1) + self.f2.mix(1) + self.f3.mix(1) + self.f4.mix(1) + self.f5.mix(1)
 
-    def setVowel(self,x):
-        self.f1.freq = x[0]
-        self.f2.freq = x[1]
-        self.f3.freq = x[2]
-        self.f4.freq = x[3]
+    def setVowel(self,x, port = 0.1):
+        self.f1.freq.value = x[0]
+        self.f1.freq.time = port
+        self.f2.freq.value = x[1]
+        self.f2.freq.time = port
+        self.f3.freq.value = x[2]
+        self.f3.freq.time = port
+        self.f4.freq.value = x[3]
+        self.f4.freq.time = port
+        self.f5.freq.value = x[4]
+        self.f5.freq.time = port
         
     def setFadein(self,x):
         self.amp.attack = x
