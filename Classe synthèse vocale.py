@@ -42,7 +42,6 @@ class Synth:
 
         self.src = Blit(freq = self.pit * self.vibr, harms = self.harms, mul = self.amp * self.tremolo)
         
-        ## à paufiner
         self.sum = Denorm(self.src * self.rauque)
 
         self.lp = Biquadx(self.sum,freq = 400, q = 1, stages=2, mul = 0.1) 
