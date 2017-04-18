@@ -20,18 +20,16 @@ e = (420, 2050, 2630, 3340, 4340)
 u = (250, 1750, 2160, 3060, 4060)
 i = (250, 2250, 2980, 3280, 4280)
 
-qou = [7,6,6,5,6]
-
 class Synth:
-    def __init__(self, vowel = ou, fadein = 0.001, fadeout = 0.1, hoarse = 0.1, 
+    def __init__(self, vowel = ou, attack = 0.005, release = 0.1, hoarse = 0.1, 
                             vibfreq = 2, vibamp = 0.003,tremfreq = 2, tremamp = 0.001):
                                 
         self.jitter = Noise(mul = 0.001, add= 1)
         self.note = Notein(poly=5, scale=1, first=0, last=127)
         self.pit = self.note['pitch']
-        self.amp = MidiAdsr(self.note['velocity'], attack=fadein, release=fadeout, mul=1)
+        self.amp = MidiAdsr(self.note['velocity'], attack = attack, release = release)
         
-        self.env = MidiAdsr(self.note['velocity'], attack = fadein * 2, release=fadeout)
+        self.env = MidiAdsr(self.note['velocity'], attack = attack * 2, release = release)
 
         self.harms = Randi(min=50, max=55, freq=0.25) 
 
@@ -49,13 +47,36 @@ class Synth:
 
         self.lp = Biquadx(self.sum,freq = 400, q = 1, stages=2, mul = 0.1) 
         
-        ## liste pour q
+        if vowel == ou:
+            self.q = [5,5,6,5,6]
+        elif vowel == o:
+            self.q = [4,4,6,5,5]
+        elif vowel == oo:
+            self.q = [5,5,5,5,5]
+        elif vowel == aa:
+            self.q = [5,5,5,5,5]
+        elif vowel == a:
+            self.q = [5,5,5,5,5]
+        elif vowel == ee:
+            self.q = [5,5,5,5,5]
+        elif vowel == oee:
+            self.q = [5,5,5,5,5]
+        elif vowel == oe:
+            self.q = [5,5,5,5,5]
+        elif vowel == eu:
+            self.q = [5,5,5,5,5]
+        elif vowel == e:
+            self.q = [5,5,5,5,5]
+        elif vowel == u:
+            self.q = [5,5,5,5,5]
+        elif vowel == i:
+            self.q = [5,5,5,5,5]
         
-        self.f1 = Biquadx(self.lp, freq=SigTo(vowel[0],time = 0.1), q=qou[0], stages=3, mul=2)
-        self.f2 = Biquadx(self.lp, freq=SigTo(vowel[1],time = 0.1), q=qou[1], stages=3, mul=2)
-        self.f3 = Biquadx(self.lp, freq=SigTo(vowel[2],time = 0.1), q=qou[2], stages=3, mul=2)
-        self.f4 = Biquadx(self.lp, freq=SigTo(vowel[3],time = 0.1), q=qou[3], stages=3, mul=2)
-        self.f5 = Biquadx(self.lp, freq=SigTo(vowel[4],time = 0.1), q=qou[4], stages=3, mul=2)
+        self.f1 = Biquadx(self.lp, freq=SigTo(vowel[0],time = 0.1), q=self.q[0], stages=3, mul=2)
+        self.f2 = Biquadx(self.lp, freq=SigTo(vowel[1],time = 0.1), q=self.q[1], stages=3, mul=2)
+        self.f3 = Biquadx(self.lp, freq=SigTo(vowel[2],time = 0.1), q=self.q[2], stages=3, mul=2)
+        self.f4 = Biquadx(self.lp, freq=SigTo(vowel[3],time = 0.1), q=self.q[3], stages=3, mul=2)
+        self.f5 = Biquadx(self.lp, freq=SigTo(vowel[4],time = 0.1), q=self.q[4], stages=3, mul=2)
         
 
         self.formants = self.f1.mix(1) + self.f2.mix(1) + self.f3.mix(1) + self.f4.mix(1) + self.f5.mix(1)
@@ -72,11 +93,11 @@ class Synth:
         self.f5.freq.value = x[4]
         self.f5.freq.time = port
         
-    def setFadein(self,x):
+    def setAttack(self,x):
         self.amp.attack = x
         self.env.attack = x * 2
 
-    def setFadeout(self,x):
+    def setRelease(self,x):
         self.amp.release = self.env.release = x
         
     def setHoarse(self,x):
@@ -91,7 +112,7 @@ class Synth:
     def setTremfreq(self,x):
         self.tremolo.freq = x * self.jitter
 
-    def setVTremamp(self,x):
+    def setTremamp(self,x):
         self.tremolo.amp = x * self.jitter
 
     def out(self):
