@@ -20,6 +20,7 @@ e = (420, 2050, 2630, 3340, 4340)
 u = (250, 1750, 2160, 3060, 4060)
 i = (250, 2250, 2980, 3280, 4280)
 
+
 class Synth:
     def __init__(self, vowel = ou, attack = 0.005, release = 0.1, hoarse = 0.1, 
                             vibfreq = 2, vibamp = 0.003,tremfreq = 2, tremamp = 0.001):
@@ -51,46 +52,77 @@ class Synth:
         elif vowel == o:
             self.q = [4,4,6,5,5]
         elif vowel == oo:
-            self.q = [5,5,5,5,5]
+            self.q = [5,6,5,6,5]
         elif vowel == aa:
-            self.q = [5,5,5,5,5]
+            self.q = [5,5,5,6,6]
         elif vowel == a:
-            self.q = [5,5,5,5,5]
+            self.q = [6,4,5,5,5]
         elif vowel == ee:
-            self.q = [5,5,5,5,5]
+            self.q = [6,6,5,4,4]
         elif vowel == oee:
-            self.q = [5,5,5,5,5]
+            self.q = [6,6,5,4,4]
         elif vowel == oe:
             self.q = [5,5,5,5,5]
         elif vowel == eu:
-            self.q = [5,5,5,5,5]
+            self.q = [6,5,4,4,5]
         elif vowel == e:
-            self.q = [5,5,5,5,5]
+            self.q = [4,5,6,6,6]
         elif vowel == u:
-            self.q = [5,5,5,5,5]
+            self.q = [4,5,5,6,5]
         elif vowel == i:
-            self.q = [5,5,5,5,5]
+            self.q = [4,4,5,6,6]
         
-        self.f1 = Biquadx(self.lp, freq=SigTo(vowel[0],time = 0.1), q=self.q[0], stages=3, mul=2)
-        self.f2 = Biquadx(self.lp, freq=SigTo(vowel[1],time = 0.1), q=self.q[1], stages=3, mul=2)
-        self.f3 = Biquadx(self.lp, freq=SigTo(vowel[2],time = 0.1), q=self.q[2], stages=3, mul=2)
-        self.f4 = Biquadx(self.lp, freq=SigTo(vowel[3],time = 0.1), q=self.q[3], stages=3, mul=2)
-        self.f5 = Biquadx(self.lp, freq=SigTo(vowel[4],time = 0.1), q=self.q[4], stages=3, mul=2)
+        self.f1 = Biquadx(self.lp, freq=SigTo(vowel[0],time = 0.1), q=SigTo(self.q[0],time = 0.1), stages=3, mul=2)
+        self.f2 = Biquadx(self.lp, freq=SigTo(vowel[1],time = 0.1), q=SigTo(self.q[1],time = 0.1), stages=3, mul=2)
+        self.f3 = Biquadx(self.lp, freq=SigTo(vowel[2],time = 0.1), q=SigTo(self.q[2],time = 0.1), stages=3, mul=2)
+        self.f4 = Biquadx(self.lp, freq=SigTo(vowel[3],time = 0.1), q=SigTo(self.q[3],time = 0.1), stages=3, mul=2)
+        self.f5 = Biquadx(self.lp, freq=SigTo(vowel[4],time = 0.1), q=SigTo(self.q[4],time = 0.1), stages=3, mul=2)
         
 
         self.formants = self.f1.mix(1) + self.f2.mix(1) + self.f3.mix(1) + self.f4.mix(1) + self.f5.mix(1)
 
     def setVowel(self,x, port = 0.1):
+        
+        if x == ou:
+            q = [5,5,6,5,6]
+        elif x == o:
+            q = [4,4,6,5,5]
+        elif x == oo:
+            q = [5,6,5,6,5]
+        elif x == aa:
+            q = [5,5,5,6,6]
+        elif x == a:
+            q = [6,4,5,5,5]
+        elif x == ee:
+            q = [6,6,5,4,4]
+        elif x == oee:
+            q = [6,6,5,4,4]
+        elif x == oe:
+            q = [5,5,5,5,5]
+        elif x == eu:
+            q = [6,5,4,4,5]
+        elif x == e:
+            q = [4,5,6,6,6]
+        elif x == u:
+            q = [4,5,5,6,5]
+        elif x == i:
+            q = [4,4,5,6,6]
+        
         self.f1.freq.value = x[0]
-        self.f1.freq.time = port
+        self.f1.freq.time = self.f1.q.time = port
+        self.f1.q.value = q[0]
         self.f2.freq.value = x[1]
-        self.f2.freq.time = port
+        self.f2.freq.time = self.f2.q.time = port
+        self.f2.q.value = q[1]
         self.f3.freq.value = x[2]
-        self.f3.freq.time = port
+        self.f3.freq.time = self.f3.q.time = port
+        self.f3.q.value = q[2]
         self.f4.freq.value = x[3]
-        self.f4.freq.time = port
+        self.f4.freq.time = self.f4.q.time = port
+        self.f4.q.value = q[3]
         self.f5.freq.value = x[4]
-        self.f5.freq.time = port
+        self.f5.freq.time = self.f5.q.time = port
+        self.f5.q.value = q[4]
         
     def setAttack(self,x):
         self.amp.attack = x
