@@ -27,7 +27,7 @@ class PlasticThroat(PyoObject):
         self._tremfreq = tremfreq
         self._tremamp = tremamp
                 
-        vowel,attack,release,hoarse,vibfreq,vibamp,tremfreq,tremamp,mul,add, lmax = convertArgsToLists(vowel,attack,release,hoarse,vibfreq,vibamp,tremfreq,tremamp,mul,add)
+        vowel,attack,release,hoarse,vibfreq,vibamp,tremfreq,tremamp,mul,add,lmax = convertArgsToLists(vowel,attack,release,hoarse,vibfreq,vibamp,tremfreq,tremamp,mul,add)
 
         self._jitter = Noise(mul = 0.0001, add= 1)
         self._note = Notein(poly=5, scale=1, first=0, last=127)
@@ -79,11 +79,16 @@ class PlasticThroat(PyoObject):
             print "Error, this vowel does not exist"
 
      
-        self._f1 = Biquadx(self._lp, freq=SigTo(vowel[0],time = 0.1), q=SigTo(self.q[0],time = 0.1), stages=3, mul= 3,add=add)
-        self._f2 = Biquadx(self._lp, freq=SigTo(vowel[1],time = 0.1), q=SigTo(self.q[1],time = 0.1), stages=3, mul= 3,add=add)
-        self._f3 = Biquadx(self._lp, freq=SigTo(vowel[2],time = 0.1), q=SigTo(self.q[2],time = 0.1), stages=3, mul= 3,add=add)
-        self._f4 = Biquadx(self._lp, freq=SigTo(vowel[3],time = 0.1), q=SigTo(self.q[3],time = 0.1), stages=3, mul= 3,add=add)
-        self._f5 = Biquadx(self._lp, freq=SigTo(vowel[4],time = 0.1), q=SigTo(self.q[4],time = 0.1), stages=3, mul= 3,add=add)
+        self._f1 = Biquadx(self._lp, freq=SigTo(vowel[0],time = 0.1), 
+                            q=SigTo(self.q[0],time = 0.1), stages=3, mul= 3,add=add)
+        self._f2 = Biquadx(self._lp, freq=SigTo(vowel[1],time = 0.1), 
+                            q=SigTo(self.q[1],time = 0.1), stages=3, mul= 3,add=add)
+        self._f3 = Biquadx(self._lp, freq=SigTo(vowel[2],time = 0.1), 
+                            q=SigTo(self.q[2],time = 0.1), stages=3, mul= 3,add=add)
+        self._f4 = Biquadx(self._lp, freq=SigTo(vowel[3],time = 0.1), 
+                            q=SigTo(self.q[3],time = 0.1), stages=3, mul= 3,add=add)
+        self._f5 = Biquadx(self._lp, freq=SigTo(vowel[4],time = 0.1), 
+                            q=SigTo(self.q[4],time = 0.1), stages=3, mul= 3,add=add)
 
         self._formants = self._f1.mix(1) + self._f2.mix(1) + self._f3.mix(1) + self._f4.mix(1)
 
@@ -206,7 +211,8 @@ class PlasticThroat(PyoObject):
                             SLMap(0.001, 1000, "log", "vibfreq", self._vibfreq),
                             SLMap(0.0001, 0.5, "log", "vibamp", self._vibamp),
                             SLMap(0.001, 1000, "log", "tremfreq", self._tremfreq),
-                            SLMap(0.0001, 0.5, "log", "tremamp", self._tremamp),SLMapMul(self._mul)]
+                            SLMap(0.0001, 0.5, "log", "tremamp", self._tremamp),
+                            SLMapMul(self._mul)]
         PyoObject.ctrl(self, map_list, title, wxnoserver)
 
 if __name__ == "__main__":
