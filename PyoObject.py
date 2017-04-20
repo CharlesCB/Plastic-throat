@@ -18,7 +18,7 @@ i = [250, 2250, 2980, 3280, 4280]
 class PlasticThroat(PyoObject):
     
     def __init__(self, vowel = aa, attack = 0.05, release = 0.1, hoarse = 0.05,
-                    vibfreq = 2, vibamp = 0.003,tremfreq = 2, tremamp = 0.001,mul=1,add=0,):
+                    vibfreq = 2, vibamp = 0.001,tremfreq = 2, tremamp = 0.001,mul=1,add=0,):
         PyoObject.__init__(self,mul,add)
         self._vowel = vowel
         self._hoarse = hoarse
@@ -49,7 +49,7 @@ class PlasticThroat(PyoObject):
 
         self._sum = Denorm(self._src * self._rauque)
 
-        self._lp = Biquadx(self._sum,freq = 400, q = 1, stages=2, mul = 0.1) 
+        self._lp = Biquadx(self._sum,freq = 300, q = 1, stages=2, mul = 0.1) 
    
         if vowel == ou:
             self.q = [5,5,6,5,6]
@@ -79,17 +79,17 @@ class PlasticThroat(PyoObject):
             print "Error, this vowel does not exist"
 
      
-        self._f1 = Biquadx(self._lp, freq=SigTo(vowel[0],time = 0.1), q=SigTo(self.q[0],time = 0.1), stages=3, mul=mul *2,add=add)
-        self._f2 = Biquadx(self._lp, freq=SigTo(vowel[1],time = 0.1), q=SigTo(self.q[1],time = 0.1), stages=3, mul=mul *2,add=add)
-        self._f3 = Biquadx(self._lp, freq=SigTo(vowel[2],time = 0.1), q=SigTo(self.q[2],time = 0.1), stages=3, mul=mul *2,add=add)
-        self._f4 = Biquadx(self._lp, freq=SigTo(vowel[3],time = 0.1), q=SigTo(self.q[3],time = 0.1), stages=3, mul=mul *2,add=add)
-        self._f5 = Biquadx(self._lp, freq=SigTo(vowel[4],time = 0.1), q=SigTo(self.q[4],time = 0.1), stages=3, mul=mul *2,add=add)
+        self._f1 = Biquadx(self._lp, freq=SigTo(vowel[0],time = 0.1), q=SigTo(self.q[0],time = 0.1), stages=3, mul= 3,add=add)
+        self._f2 = Biquadx(self._lp, freq=SigTo(vowel[1],time = 0.1), q=SigTo(self.q[1],time = 0.1), stages=3, mul= 3,add=add)
+        self._f3 = Biquadx(self._lp, freq=SigTo(vowel[2],time = 0.1), q=SigTo(self.q[2],time = 0.1), stages=3, mul= 3,add=add)
+        self._f4 = Biquadx(self._lp, freq=SigTo(vowel[3],time = 0.1), q=SigTo(self.q[3],time = 0.1), stages=3, mul= 3,add=add)
+        self._f5 = Biquadx(self._lp, freq=SigTo(vowel[4],time = 0.1), q=SigTo(self.q[4],time = 0.1), stages=3, mul= 3,add=add)
 
         self._formants = self._f1.mix(1) + self._f2.mix(1) + self._f3.mix(1) + self._f4.mix(1)
 
         self._base_objs = self._formants.getBaseObjects()
 
-    def setVowel(self,x, port = 0.1):
+    def setVowel(self,x, port = 0.5):
         if x == ou:
             q = [5,5,6,5,6]
         elif x == o:
@@ -203,10 +203,10 @@ class PlasticThroat(PyoObject):
         
     def ctrl(self, map_list=None, title=None, wxnoserver=False):
         self._map_list = [SLMap(0.001, 5, "lin", "hoarse", self._hoarse),
-                            SLMap(0.01, 500, "log", "vibfreq", self._vibfreq),
-                            SLMap(0.001, 0.5, "lin", "vibamp", self._vibamp),
-                            SLMap(0.01, 500, "log", "tremfreq", self._tremfreq),
-                            SLMap(0.001, 0.5, "lin", "tremamp", self._tremamp),SLMapMul(self._mul)]
+                            SLMap(0.001, 1000, "log", "vibfreq", self._vibfreq),
+                            SLMap(0.0001, 0.5, "log", "vibamp", self._vibamp),
+                            SLMap(0.001, 1000, "log", "tremfreq", self._tremfreq),
+                            SLMap(0.0001, 0.5, "log", "tremamp", self._tremamp),SLMapMul(self._mul)]
         PyoObject.ctrl(self, map_list, title, wxnoserver)
 
 if __name__ == "__main__":
