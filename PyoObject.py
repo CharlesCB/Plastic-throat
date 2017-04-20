@@ -217,7 +217,7 @@ if __name__ == "__main__":
     s.boot()
 
     voix = VocSynth()
-    reverb = WGVerb(voix,bal = 0.2).out()
+    reverb = WGVerb(voix,bal = 0.25).out()
     voix.ctrl()
 
     s.start()
