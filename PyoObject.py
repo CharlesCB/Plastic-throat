@@ -21,8 +21,6 @@ class VocSynth(PyoObject):
                     vibfreq = 2, vibamp = 0.003,tremfreq = 2, tremamp = 0.001,mul=1,add=0,):
         PyoObject.__init__(self,mul,add)
         self._vowel = vowel
-        self._attack = attack
-        self._release = release
         self._hoarse = hoarse
         self._vibfreq = vibfreq
         self._vibamp = vibamp
