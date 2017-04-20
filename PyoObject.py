@@ -15,7 +15,7 @@ u = [250, 1750, 2160, 3060, 4060]
 i = [250, 2250, 2980, 3280, 4280]
 
 
-class VocSynth(PyoObject):
+class PlasticThroat(PyoObject):
     
     def __init__(self, vowel = ou, attack = 0.01, release = 0.5, hoarse = 0.05,
                     vibfreq = 2, vibamp = 0.003,tremfreq = 2, tremamp = 0.001,mul=1,add=0,):
@@ -214,7 +214,7 @@ if __name__ == "__main__":
     s.setMidiInputDevice(3) 
     s.boot()
 
-    voix = VocSynth()
+    voix = PlasticThroat()
     reverb = WGVerb(voix,bal = 0.25).out()
     voix.ctrl()
 
