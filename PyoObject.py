@@ -17,7 +17,7 @@ i = [250, 2250, 2980, 3280, 4280]
 
 class PlasticThroat(PyoObject):
     
-    def __init__(self, vowel = ee, attack = 0.05, release = 0.5, hoarse = 0.05,
+    def __init__(self, vowel = aa, attack = 0.05, release = 0.1, hoarse = 0.05,
                     vibfreq = 2, vibamp = 0.003,tremfreq = 2, tremamp = 0.001,mul=1,add=0,):
         PyoObject.__init__(self,mul,add)
         self._vowel = vowel
