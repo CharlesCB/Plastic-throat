@@ -1,12 +1,6 @@
 # Plastic-throat
 ### Module de synthèse vocale pour application musicale
 
-Le projet est de créer un module de synthèse en se basant sur la modélisation physique de la voix humaine. Ultimement ce module pourrait "chanter" des consones et plusieurs paramètres seraient assignable. Par exemple: la quantité d'air, la nasalisation, le vibrato, le trémolo...
+Plastic Throat est un module de synthèse vocale construite sur le modèle source-filtre construite en langage Python à l’aide de la librairie Pyo. Il a d’abord été élaboré comme une classe Python pour ensuite devenir un PyoObject, c’est à dire une classe qui hérite de PyoObject. Plastic Throat reçoit la norme MIDI pour simuler le chant d’une voyelle choisie. L’utilisateur peux ajuster l’ «a ttack » et le « release » de l’enveloppe d’amplitude, le niveau de raucité, l’amplitude et la fréquence (vitesse) du trémolo et du vibrato ainsi que la voyelle chantée. 
 
-Plusieurs informations disponibles sur le net seront prémordiale à mon travail. Entre autre des recherches sur les formants des consones pour savoir à quelle fréquence placer les filtres selon le résultat désiré. 
-
-Une classe audio formera, par synthèse additive différentes consones qui seront par la suite envoyé dans des effets (filtre, reverbération, tremollo, vibrato, chorus ...)
-
-Je crois bien faire répondre le module à des notes midi mais je me questionne encore sur la faisabilité (temps) d'y apposer une interface graphique. 
-
-Ce projet cera réalisé en language python à l'aide de la librairie Pyo. 
+Un exemple de ce que Plastic Throat peut faire est disponible avec le PyoObject, il suffit de choisir le port d’entrée MIDI et, grâce à la méthode ctr() des PyoObjects, une interface graphique permet de changer les différents paramètres. 
