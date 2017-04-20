@@ -17,7 +17,7 @@ i = [250, 2250, 2980, 3280, 4280]
 
 class PlasticThroat(PyoObject):
     
-    def __init__(self, vowel = ou, attack = 0.01, release = 0.5, hoarse = 0.05,
+    def __init__(self, vowel = ee, attack = 0.05, release = 0.5, hoarse = 0.05,
                     vibfreq = 2, vibamp = 0.003,tremfreq = 2, tremamp = 0.001,mul=1,add=0,):
         PyoObject.__init__(self,mul,add)
         self._vowel = vowel
@@ -204,9 +204,9 @@ class PlasticThroat(PyoObject):
     def ctrl(self, map_list=None, title=None, wxnoserver=False):
         self._map_list = [SLMap(0.001, 5, "lin", "hoarse", self._hoarse),
                             SLMap(0.01, 500, "log", "vibfreq", self._vibfreq),
-                            SLMap(0.01, 0.5, "lin", "vibamp", self._vibamp),
+                            SLMap(0.001, 0.5, "lin", "vibamp", self._vibamp),
                             SLMap(0.01, 500, "log", "tremfreq", self._tremfreq),
-                            SLMap(0.01, 0.5, "lin", "tremamp", self._tremamp),SLMapMul(self._mul)]
+                            SLMap(0.001, 0.5, "lin", "tremamp", self._tremamp),SLMapMul(self._mul)]
         PyoObject.ctrl(self, map_list, title, wxnoserver)
 
 if __name__ == "__main__":
