@@ -15,6 +15,9 @@ u = [250, 1750, 2160, 3060, 4060]
 i = [250, 2250, 2980, 3280, 4280]
 
 
+#Set attack and release in __init__ or change it while running server with voix.setAttack(x) 
+#or voix.setRelease(x) in the interpreter.
+
 class PlasticThroat(PyoObject):
     
     def __init__(self, vowel = aa, attack = 0.05, release = 0.1, hoarse = 0.05,
@@ -217,9 +220,11 @@ class PlasticThroat(PyoObject):
 
 if __name__ == "__main__":
     s = Server()
+    # Choose your midi device
     s.setMidiInputDevice(3) 
     s.boot()
 
+    #To change vowel use voix.setVowel(vowel,time) in the interpreter
     voix = PlasticThroat()
     reverb = WGVerb(voix,bal = 0.25).out()
     voix.ctrl()
